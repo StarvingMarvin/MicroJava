@@ -1,0 +1,41 @@
+\documentclass[a4paper,12pt]{report}
+
+\usepackage[serbian]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx}
+\usepackage{setspace}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+%opening
+\title{MicroJava na LLVM infrastrukturi}
+\author{Luka Stojanović}
+
+
+\begin{document}
+
+
+\input{titlepage.tex}
+
+\tableofcontents
+
+\begin{abstract}
+Dva alata, iako proistekla iz akademije, imaju popriličnu praktičnu upotrebu.
+\end{abstract}
+
+\input{antlr.tex}
+
+\input{llvm.tex}
+
+\chapter{MicroJava}
+
+
+\appendix
+
+\chapter{Listing gramatike}
+
+\chapter{Korišćene LLVM instrukcije}
+
+\input{bib.tex}
+
+\end{document}
