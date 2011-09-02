@@ -1,16 +1,35 @@
-\chapter{Parsiranje i sintaksna analiza}
+\chapter{Parsiranje i semantička analiza}
 
-
-
-ANTLR \footnote{Another Tool for Langauage Recognition} je parser generator napisan u Javi. 
+Prvi korak u implementaciji jezika je prepoznavanje ulaza i provera sintaksih i semantičkih pravila. Izuzev u slučaju jako jednostavnih gramatika, najlakši način da se napravi parser je pomoću nekog od mnogobrojnih alata koji će za zadatu gramatiku generisati potreban kod. Opredelio sam se za ANTLR zbog nekih njegovih svojstava kojima ću posvetiti nekoliko strana.
 
 \section{Uvod u ANTLR}
 
-\section{LL(*) gramatike}
+ANTLR\footnote{skr. eng. Another Tool for Langauage Recognition} je parser generator napisan u Javi. Razvijan je u prethodne dve decenije, prevenstveno od strane Terensa Para\footnote{Terrence Parr}, profesora univerziteta u San Francisku. Postoji nekoliko stvari koje ANTLR čine jedinstvenim:\cite{antlr-contrib}
+
+\begin{description}
+
+	\item[Približno linearno ???]\footnote{eng. Linear Aproximate Lookahead} \hfill \\
+	kojim se uz mali gubitak snage \LLk parseri čine praktičnik sa stanovišta performansi. 
+	\item[Parsiranje sa sintaksim i semantičkim predikatima] \hfill \\
+	Sintaksni predikati povećavaju snagu 
+	\item[Generisanje apstraktnih sintaksnih stabala] \hfill \\
+	vrh!
+	\item[Jedinstvena gramatika za lekser, parser i AST\footnote{skr. eng. Abstract syntax tree}  parser] \hfill \\
+	jos vrh!
+	\item[Kanali za tokene] \hfill \\
+	Mogućnost plasiranja terminalnih tokena u više kanala. Tako recimo gramatika jezika može biti odvojena od gramatike koja generiše dokumentaciju iz komentara.
+	\item [\LLa {} gramatike] \hfill \\
+	koje omogućavaju proizvoljno gledanje unapred prilikom određivanja gramatičkog pravila koje treba primeniti.
+
+\end{description}
+
+Pobliže ću u narednim objasniti dve od ovih osobina: \LLa gramatike i gramatike sintaksnih stabala.
+
+\section{\LLa {} gramatike}
 
 
-\section{Osnovna Antlr gramatika}
 
-\section{AST gramatika}
+\section{ANTLR gramatika}
 
-\section{Antlr gramatika MicroJave}
+
+\section{ANTLR gramatika MicroJave}
