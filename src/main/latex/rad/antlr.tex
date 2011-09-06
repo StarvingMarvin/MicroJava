@@ -1,17 +1,19 @@
 \chapter{Parsiranje i semantička analiza}
 
-Prvi korak u implementaciji jezika je prepoznavanje ulaza i provera sintaksih i semantičkih pravila. Izuzev u slučaju jako jednostavnih gramatika koje se lako mogu , najlakši način da se napravi parser je pomoću nekog od mnogobrojnih alata koji će za zadatu gramatiku generisati potreban kod. Opredelio sam se za ANTLR zbog nekih njegovih svojstava kojima ću posvetiti nekoliko strana.
+Prvi korak u implementaciji jezika je prepoznavanje ulaza i provera sintaksih i semantičkih pravila. U slučaju jako jednostavnih gramatika, parser se veoma lako može napisati ručno. Sa druge strane u slučaju jako komplikovanih gramatika ručno kodiranje određenih delova je verovatno jedini način da se parser verno implementira. Međutim, za većinu svakodnevnih problema, najlakši način da se napravi parser je pomoću nekog od mnogobrojnih alata koji će za zadatu gramatiku generisati potreban kod. Opredelio sam se za ANTLR\footnote{skr. eng. Another Tool for Langauage Recognition} zbog nekih njegovih svojstava kojima ću posvetiti nekoliko strana.
 
 \section{Uvod u ANTLR}
 
-ANTLR\footnote{skr. eng. Another Tool for Langauage Recognition} je parser generator napisan u Javi. Razvijan je u prethodne dve decenije, prevenstveno od strane Terensa Para\footnote{Terrence Parr}, profesora univerziteta u San Francisku. Postoji nekoliko stvari koje ANTLR čine jedinstvenim\cite{antlr-contrib}:
+ANTLR je parser generator napisan u Javi. Razvijan je u prethodne dve decenije, prevenstveno od strane Terensa Para\footnote{Terrence Parr}, profesora univerziteta u San Francisku. Postoji nekoliko stvari koje ANTLR čine jedinstvenim\cite{antlr-contrib}:
 
 \begin{description}
 
 	\item[Linearno približno prepoznavanje]\footnote{eng. Linear Aproximate Lookahead} \hfill \\
-	Problem prepoznavanja gramatičkog pravila sa pročitanih $k > 1$ narednih simbola sa ulaza, je $O(|T|^{k})$ prostorne zahtevnosti, gde je $|T|$ veličina skupa ulaznih simbola. Uz mali gubitak snage, strategija približnog prepoznavanja sa $O(|T|k)$ kompleksnosti čini \LLk parsere praktičnijim sa stanovišta performansi.
-	\item[Parsiranje sa sintaksim i semantičkim predikatima] \hfill \\
-	\LLk parseri su često slabiji od $LR(k)$ parsera jer $LR$ parseri imaju na raspolaganju više pročitanog ulaza, prilikom donošenja odluke. Međutim ni jedni ni drugi šesto ne mogu da se nose sa problemima kao što je parsiranje C++-a koje nije beskontekstno. Ideja semantičkih predikata nije nova\cite{attributed-transations}
+	Problem prepoznavanja gramatičkog pravila sa pročitanih $k > 1$ narednih simbola sa ulaza, je $O(|T|^{k})$ prostorne zahtevnosti, gde je $|T|$ veličina skupa ulaznih simbola. 
+	
+	Uz mali gubitak snage, strategija približnog prepoznavanja sa $O(|T|k)$ kompleksnosti čini \LLk parsere praktičnijim sa stanovišta performansi.
+	\item[Parsiranje sa sintaksnim i semantičkim predikatima] \hfill \\
+	\LLk parseri su često slabiji od $LR(k)$ parsera, jer $LR$ parseri imaju na raspolaganju više pročitanog ulaza prilikom donošenja odluke. Međutim ni jedni ni drugi često ne mogu da se nose sa problemima kao što je parsiranje C++-a koje nije beskontekstno. Ideja semantičkih predikata nije nova\cite{attributed-transations}.
 %PCCTS hoists predicates into other rules.
 %PCCTS automatically determines if a predicate should be hoisted into a parsing decision.
 %PCCTS automatically determines the syntactic context in which a predicate is valid.
@@ -24,15 +26,17 @@ ANTLR\footnote{skr. eng. Another Tool for Langauage Recognition} je parser gener
 	\item[Generisanje apstraktnih sintaksnih stabala] \hfill \\
 	Ono što često želimo da uradimo po prepoznavanju ulazne sekvence jeste konstrukcija apstraktnog sintaksnog stabla. ANTLR jednostavnom sintaksom pomaže automatizaciju ovog procesa.
 	\item[Jedinstvena gramatika za lekser, parser i AST\footnote{skr. eng. Abstract syntax tree}  parser] \hfill \\
-	Istom notacijom se opisuje građenje terminalnog simbola od ulaznih karaktera, gradjenje neterminalnih simbola od terminalnih, kao i građenje pravila na osnovu sintaksnih stabala.
+	Istom notacijom se opisuje građenje terminalnog simbola od ulaznih karaktera, građenje neterminalnih simbola od terminalnih, kao i građenje pravila na osnovu sintaksnih stabala.
 	\item[Kanali za simbole] \hfill \\
-	Ideja je proistekla iz potrebe da se određeni terminalni simboli na ulazu ignorišu, ali ne odbace, kao recimo komentari. Uopštenjem ove ideje došlo je do implementacije odvojenih kanala u koje lekser može da emituje simbole. Tako se recimo komentari, deklaracije, funkcije i slično mogu slati u odvojene kanale. Lekser time postaje emiter tokena, parser konzument, a između njih se može umetnuti i filter koji funkcioniše sa strane leksera kao kunzument, a sa strane parsera kao emiter.
+	Ideja je proistekla iz potrebe da se određeni terminalni simboli na ulazu ignorišu, ali ne i odbace, kao recimo komentari. Uopštenjem ove ideje došlo je do implementacije odvojenih kanala u koje lekser može da emituje simbole. Tako se recimo komentari, deklaracije, funkcije i slično mogu slati u odvojene kanale. Lekser time postaje emiter tokena, parser konzument, a između njih se može umetnuti i filter koji funkcioniše sa strane leksera kao kunzument, a sa strane parsera kao emiter.
 	\item [\LLa gramatike] \hfill \\
 	Ovo je novina u verziji 3. Generator parsera ovom strategijom može da prihvati gramatike koje zahtevaju čitanje proizvoljno mnogo simbola sa ulaza.
 
 \end{description}
 
-Pobliže ću u narednim objasniti dve od ovih osobina: \LLa gramatike i gramatike sintaksnih stabala.
+  U poglavljima ,,\LLa gramatike'' i ,,ANTLR gramatika'' detaljnije ću opisati neke od ovih osobina.
+  
+  ANTLR može da generiše kod u više programskih jezika (Java, C, C\#, Ruby, Python\ldots), a za lakšu izradu parsera postoji i razvojno okruženje, ANTLRWorks, koje poseduje širok skup mogućnosti, kao što su: automatsko kompletiranje i formatiranje koda, grafički prikaz gramatičkih pravila u vidu grafa stanja i testiranje gramatike za zadate ulaze.
 
 \section{\LLa gramatike}
 
