@@ -1,2 +1,19 @@
 
 \chapter{MicroJava}
+
+MicroJava je jezik koji ću implementirati u okviru ovog rada. Sintaksom podseća na Javu, ali je mnogo jednostavnijii i semantički je bliži proceduralnom jeziku kao sto je Pascal. Sledi kratak pregled ovog jezika kako je definisan u materijalima kursa programskih prevodioca.
+
+\subsection*{Tipovi}
+
+Od prostih tipova podržava 32-bitne i 8-bitne celobrojne vrednosti (\mj{int} i \mj{char}). Od agregatnih tipova postoje jednodimenzionalni nizovi i korisnički definisane  klase koje po svojoj semantici podsećaju na strukture u C-u. Logički tip postoji (\mj{boolean}) samo kao argument kontrolnim strukturama, što su u MicroJavi \mj{if} i \mj{while}. Slično Javi, nizovi i klase su tipa reference.
+
+Tipovi su ekvivalentni ako imaju isto ime ili ako su oba tipa nizovi, a tipovi njihovih elemenata su ekvivalentni. Tipovi su kompatabilni ako ekvivalentni ili ako je jedan od njih tipa reference a drugi tipa \mj{null}. Logički operatori mogu biti primenjeni samo ako su izrazi sa obe strane operatora kompatibilni. Dodela je moguća ako su tipovi na levoj i desnoj strani ekvivalentni ili ako je tip na levoj strani tipa reference, a na desnoj tipa \mj{null}.
+
+\subsection*{Predeklarisana imena}
+
+Osim ključnih reči, MicroJava poseduje i nekoliko predeklarisanih imena, od kojih su neka već pomenuta: tipovi \mj{int} i \mj{char}, kao i konstanta \mj{null}. Deklarisani su još i konstanta za kraj reda \mj{eol} koja odgovara znaku '\textbackslash n', kao i tri metode: \mj{chr()}, \mj{ord()} i \mj{len()}. Metoda  \mj{chr()} uzima celobrojnu vrednost i vraća odgovarajući ASCII karakter. Nasuprot tome \mj{ord()} prima karakter kao parametar i vraća odgovarajući celobrojnu reprezentaciju. Metoda \mj{len()} uzima niz i vraća njegovu dužinu. Kako nije moguće definisati metode istog imena koje se razlikuju po tipu ulaznih parametara, \mj{print} i \mj{read} su definisani kao ključne reči u samom jeziku.
+
+\subsection*{Opseg važenja}
+
+U MicroJavi postoje tri leksički ugnježdena opsega: globalni opseg (\textit{universe}) koji sadrži predeklarisana imena i glavnu klasu. Opseg glavne klase u kojme se definisu korisnički tipovi, promenljive i metode i opsezi samih metoda. Kako svako ime mora biti deklarisano pre prve upotrebe, indirektna rekurzija, kako u pozivima metoda, tako i u definisanju klasa, nije moguća. Ponovno deklarisanje imena u unutrašnjem opsegu $S$, sakriva deklaraciju tog imena u spoljnjem opsegu.
+

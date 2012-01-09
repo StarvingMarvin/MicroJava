@@ -2,8 +2,24 @@
 
 \section{Uvod u LLVM}
 
+LLVM je...
+
+\section{LLVM međureprezentacija}
+
+Ceentralno mesto u arhitekturi LLVM-a\cite{aosa} zauzima međureprezentacija\footnote{eng. Intermediate Representation - IR} kojom se opisuje kod unutar sistema. LLVM IR je dizajniran da omogući analize i transformacije koda kakve se mogu očekivati u delu kompajlera koji se bavi optimizacijom. Ono što je značajno kod ove reprezentacije je da ne predstavlja neki interni implementacioni detalj, kao kod vecine kompajlera, nego je pogurana u prvi plan kao jezik jasno definisane semantike. LLVM međureprezentacija se tako sasvim ravnopravno može opisati svojom sintaksom sličnom asembleru, bajt-kodom i direktno iz programa putem C++ API-ja\footnote{eng. Application Programming Interface}.
+
 \section{LLVM tipovi}
+
+Primitivni: label, void, int, float, x86mmx, metadata
+
+Izvedeni: nizovi, funkcije, pointer, structure, vector, opaque
+
+Tipovi prvog reda: int, float, pointer, vector, struct, array, label, metadata
+
 
 \section{LLVM instrukcije}
 
+add sub...
+
 \section{Elementi implementacije MicroJave}
+
